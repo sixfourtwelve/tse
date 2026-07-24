@@ -1,0 +1,9 @@
+{
+  "dependencies": [
+    "sdl2",
+    {"name": "ogre", "features": ["tools", "bullet"]}
+  ],
+  "overrides": [
+    {"name": "imgui", "version": "1.91.9"}
+  ]
+}
