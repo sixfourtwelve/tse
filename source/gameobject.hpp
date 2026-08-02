@@ -1,22 +1,43 @@
 #pragma once
 
+#include <OgreMovableObject.h>
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
+#include <vector>
+
 class GameObject {
 public:
-  GameObject(Ogre::SceneManager *scnMgr, Ogre::SceneNode *parent)
-      : mScnMgr(scnMgr), mNode(parent->createChildSceneNode()) {}
+  GameObject(Ogre::SceneManager *sceneManager, Ogre::SceneNode *parent)
+      : mSceneManager(sceneManager),
+        mNode(parent->createChildSceneNode(Ogre::SCENE_DYNAMIC)) {}
 
   virtual ~GameObject() {
-    mNode->destroyAllObjects();
-    mScnMgr->destroySceneNode(mNode);
+    for (Ogre::MovableObject *object : mObjects) {
+      object->detachFromParent();
+      mSceneManager->destroyMovableObject(object);
+    }
+    mNode->removeAndDestroyAllChildren();
+    mSceneManager->destroySceneNode(mNode);
   }
 
+  GameObject(const GameObject &) = delete;
+  GameObject &operator=(const GameObject &) = delete;
+
   virtual void update(float) {}
+
   Ogre::SceneNode *getNode() const { return mNode; }
 
 protected:
-  Ogre::SceneManager *mScnMgr;
+  void attach(Ogre::MovableObject *object, Ogre::SceneNode *node = nullptr) {
+    (node ? node : mNode)->attachObject(object);
+    mObjects.push_back(object);
+  }
+
+  Ogre::SceneManager *mSceneManager;
   Ogre::SceneNode *mNode;
+
+private:
+  std::vector<Ogre::MovableObject *> mObjects;
 };
+
