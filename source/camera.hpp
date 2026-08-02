@@ -1,20 +1,22 @@
 #pragma once
 
 #include "gameobject.hpp"
-#include <OgreCameraMan.h>
-#include <OgreInput.h>
-#include <string>
 
-class Camera final : public GameObject, public OgreBites::InputListener {
+#include <OgreCamera.h>
+#include <SDL_events.h>
+
+class Camera final : public GameObject {
 public:
-  Camera(const std::string &name, Ogre::SceneManager *scnMgr);
+  explicit Camera(Ogre::SceneManager *sceneManager);
 
-  Ogre::Camera *getCamera(void) const { return mCamera; }
-  OgreBites::CameraMan *getCameraMan(void) const { return mCamMan.get(); }
+  Ogre::Camera *getCamera() const { return mCamera; }
 
+  void handleEvent(const SDL_Event &event);
   void update(float dt) override;
 
 private:
   Ogre::Camera *mCamera;
-  std::unique_ptr<OgreBites::CameraMan> mCamMan;
+  Ogre::SceneNode *mPitchNode;
+  float mPitch = 0.0f;
 };
+

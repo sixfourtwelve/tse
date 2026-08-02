@@ -1,9 +1,16 @@
 {
   "dependencies": [
     "sdl2",
-    {"name": "ogre", "features": ["tools", "bullet"]}
+    {
+      "name": "ogre-next",
+      "default-features": true
+    }
   ],
   "overrides": [
-    {"name": "imgui", "version": "1.91.9"}
+    {
+      "name": "ogre-next",
+      "version": "3.0.0"
+    }
   ]
 }
+

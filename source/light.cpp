@@ -1,12 +1,22 @@
 #include "light.hpp"
 
-Light::Light(Ogre::SceneManager *scnMgr, Ogre::SceneNode *parentNode,
-             const std::string &name, const Ogre::Light::LightTypes type)
-    : GameObject(scnMgr, parentNode) {
-  Ogre::Light *light = mScnMgr->createLight(name);
-  light->setType(type);
-  light->setShadowNearClipDistance(1);
-  mNode->attachObject(light);
+#include <OgreMath.h>
+
+Light::Light(Ogre::SceneManager *sceneManager, Ogre::SceneNode *parent)
+    : GameObject(sceneManager, parent) {
+  Ogre::Light *light = sceneManager->createLight();
+  light->setType(Ogre::Light::LT_POINT);
+  light->setPowerScale(Ogre::Math::PI * 8.0f);
+  light->setDiffuseColour(1.0f, 0.92f, 0.78f);
+  light->setSpecularColour(1.0f, 0.92f, 0.78f);
+  light->setAttenuationBasedOnRadius(30.0f, 0.01f);
+  attach(light);
+  mNode->setPosition(0.0f, 10.0f, 15.0f);
 }
 
-void Light::update(const float dt) { mNode->yaw(Ogre::Degree(100) * dt); }
+void Light::update(const float dt) {
+  mAngle += dt * 0.55f;
+  mNode->setPosition(Ogre::Math::Sin(mAngle) * 15.0f, 10.0f,
+                     Ogre::Math::Cos(mAngle) * 15.0f);
+}
+
