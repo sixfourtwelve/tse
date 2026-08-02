@@ -4,19 +4,19 @@
 
 Light::Light(Ogre::SceneManager *sceneManager, Ogre::SceneNode *parent)
     : GameObject(sceneManager, parent) {
-  Ogre::Light *light = sceneManager->createLight();
-  light->setType(Ogre::Light::LT_POINT);
-  light->setPowerScale(Ogre::Math::PI * 8.0f);
-  light->setDiffuseColour(1.0f, 0.92f, 0.78f);
-  light->setSpecularColour(1.0f, 0.92f, 0.78f);
-  light->setAttenuationBasedOnRadius(30.0f, 0.01f);
-  attach(light);
-  mNode->setPosition(0.0f, 10.0f, 15.0f);
+  mLight = sceneManager->createLight();
+  mLight->setType(Ogre::Light::LT_DIRECTIONAL);
+  mLight->setPowerScale(Ogre::Math::PI);
+  mLight->setDiffuseColour(1.0f, 0.92f, 0.78f);
+  mLight->setSpecularColour(1.0f, 0.92f, 0.78f);
+  mLight->setDirection(Ogre::Vector3(-0.65f, -1.0f, -0.35f).normalisedCopy());
+  attach(mLight);
 }
 
 void Light::update(const float dt) {
-  mAngle += dt * 0.55f;
-  mNode->setPosition(Ogre::Math::Sin(mAngle) * 15.0f, 10.0f,
-                     Ogre::Math::Cos(mAngle) * 15.0f);
+  mAngle += dt * 0.08f;
+  mLight->setDirection(
+      Ogre::Vector3(Ogre::Math::Sin(mAngle) * 0.65f, -1.0f,
+                    Ogre::Math::Cos(mAngle) * 0.65f)
+          .normalisedCopy());
 }
-

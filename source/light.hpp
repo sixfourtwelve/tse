@@ -10,6 +10,6 @@ public:
   void update(float dt) override;
 
 private:
+  Ogre::Light *mLight = nullptr;
   float mAngle = 0.0f;
 };
-

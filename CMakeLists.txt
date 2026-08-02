@@ -62,6 +62,8 @@ set(TSE_SOURCES
   source/level.hpp
   source/light.cpp
   source/light.hpp
+  source/model.cpp
+  source/model.hpp
 )
 
 if(APPLE)

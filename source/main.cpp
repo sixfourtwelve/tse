@@ -5,7 +5,10 @@
 #include <OgreArchiveManager.h>
 #include <OgreCamera.h>
 #include <Compositor/OgreCompositorManager2.h>
+#include <Compositor/OgreCompositorNodeDef.h>
+#include <Compositor/OgreCompositorShadowNode.h>
 #include <Compositor/OgreCompositorWorkspace.h>
+#include <Compositor/Pass/PassScene/OgreCompositorPassSceneDef.h>
 #include <OgreException.h>
 #include <OgreHlmsManager.h>
 #include <OgreHlmsPbs.h>
@@ -200,6 +203,35 @@ private:
     compositor->createBasicWorkspaceDef(
         workspaceName, Ogre::ColourValue(0.03f, 0.045f, 0.07f),
         Ogre::IdString());
+
+    Ogre::ShadowNodeHelper::ShadowParam sunShadows{};
+    sunShadows.technique = Ogre::SHADOWMAP_PSSM;
+    sunShadows.numPssmSplits = 3u;
+    sunShadows.resolution[0] = {2048u, 2048u};
+    sunShadows.resolution[1] = {1024u, 1024u};
+    sunShadows.resolution[2] = {1024u, 1024u};
+    sunShadows.atlasStart[0] = {0u, 0u};
+    sunShadows.atlasStart[1] = {0u, 2048u};
+    sunShadows.atlasStart[2] = {1024u, 2048u};
+    sunShadows.addLightType(Ogre::Light::LT_DIRECTIONAL);
+
+    Ogre::ShadowNodeHelper::createShadowNodeWithSettings(
+        compositor, renderer->getCapabilities(), "TSE Sun Shadows",
+        {sunShadows}, false);
+
+    const Ogre::String nodeName =
+        "AutoGen " + Ogre::IdString(workspaceName + "/Node").getReleaseText();
+    Ogre::CompositorNodeDef *node =
+        compositor->getNodeDefinitionNonConst(nodeName);
+    Ogre::CompositorTargetDef *target = node->getTargetPass(0u);
+    const Ogre::CompositorPassDefVec &passes = target->getCompositorPasses();
+    if (passes.empty())
+      throw std::runtime_error("TSE compositor has no scene pass");
+    auto *scenePass = dynamic_cast<Ogre::CompositorPassSceneDef *>(passes[0]);
+    if (!scenePass)
+      throw std::runtime_error("TSE compositor's first pass is not a scene pass");
+    scenePass->mShadowNode = "TSE Sun Shadows";
+
     mWorkspace = compositor->addWorkspace(
         mSceneManager, mRenderWindow->getTexture(), mCamera->getCamera(),
         workspaceName, true);
