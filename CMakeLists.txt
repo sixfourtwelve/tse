@@ -14,7 +14,7 @@ find_package(Bullet CONFIG REQUIRED)
 file(GLOB_RECURSE SOURCE_FILES source/*.cpp source/*.h)
 add_executable(tes ${SOURCE_FILES})
 
-target_link_libraries(tes PRIVATE OgreMain OgreBullet OgreBites Codec_STBI  
+target_link_libraries(tes PRIVATE OgreMain OgreBullet OgreBites Codec_STBI
         ${BULLET_LIBRARIES}
         $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
         $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>

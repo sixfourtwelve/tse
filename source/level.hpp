@@ -10,29 +10,30 @@
 #include <memory>
 #include <vector>
 
-class Level final {
+class CLevel final
+{
 public:
-  Level(Ogre::SceneManager *scnMgr, const std::string &name);
-  ~Level();
+    CLevel(Ogre::SceneManager* scnMgr, const std::string& name);
+    ~CLevel();
 
-  void update(float dt) const;
+    void Update(float dt) const;
 
-  template <typename T, typename... Args>
-  T *spawn(const Ogre::Vector3 &pos, Args &&...args) {
-    auto obj =
-        std::make_unique<T>(mScnMgr, mLevelNode, std::forward<Args>(args)...);
-    T *raw = obj.get();
-    raw->getNode()->setPosition(pos);
-    mGameObjects.push_back(std::move(obj));
-    return raw;
-  }
+    template <typename T, typename... Args>
+    T* Spawn(const Ogre::Vector3& pos, Args&&... args)
+    {
+        auto obj = std::make_unique<T>(mScnMgr, mLevelNode, std::forward<Args>(args)...);
+        T* raw = obj.get();
+        raw->GetNode()->setPosition(pos);
+        mGameObjects.push_back(std::move(obj));
+        return raw;
+    }
 
 private:
-  Ogre::SceneManager *mScnMgr;
-  Ogre::SceneNode *mLevelNode;
+    Ogre::SceneManager* mScnMgr;
+    Ogre::SceneNode* mLevelNode;
 
-  Ogre::Camera *mMainCam = nullptr;
+    Ogre::Camera* mMainCam = nullptr;
 
-  std::vector<std::unique_ptr<GameObject>> mGameObjects;
-  Light *mLight;
+    std::vector<std::unique_ptr<CGameObject>> mGameObjects;
+    CLight* mLight;
 };

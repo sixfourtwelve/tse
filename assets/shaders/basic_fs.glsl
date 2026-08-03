@@ -6,10 +6,10 @@
 // -----------------------------------------------------------------------------
 
 // Filled automatically by Ogre (see basic.program).
-uniform vec4 lightPos;       // world-space light position (w = 1 for point light)
-uniform vec4 lightColour;    // light 0 diffuse colour
-uniform vec4 ambient;        // scene ambient light colour
-uniform vec4 surfaceColour;  // per-material tint (overridable per cube from C++)
+uniform vec4 lightPos; // world-space light position (w = 1 for point light)
+uniform vec4 lightColour; // light 0 diffuse colour
+uniform vec4 ambient; // scene ambient light colour
+uniform vec4 surfaceColour; // per-material tint (overridable per cube from C++)
 
 // To texture instead of flat colour:
 //   1. uncomment the sampler below
@@ -26,13 +26,13 @@ out vec4 fragColour;
 
 void main()
 {
-    vec3 n = normalize(vWorldNormal);
-    vec3 l = normalize(lightPos.xyz - vWorldPos);
-    float ndotl = max(dot(n, l), 0.0);
+  vec3 n = normalize(vWorldNormal);
+  vec3 l = normalize(lightPos.xyz - vWorldPos);
+  float ndotl = max(dot(n, l), 0.0);
 
-    vec3 base = surfaceColour.rgb;
-    // vec3 base = texture(diffuseTex, vUv).rgb; // <- swap in for texturing
+  vec3 base = surfaceColour.rgb;
+  // vec3 base = texture(diffuseTex, vUv).rgb; // <- swap in for texturing
 
-    vec3 lit = base * (ambient.rgb + lightColour.rgb * ndotl);
-    fragColour = vec4(lit, 1.0);
+  vec3 lit = base * (ambient.rgb + lightColour.rgb * ndotl);
+  fragColour = vec4(lit, 1.0);
 }

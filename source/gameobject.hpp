@@ -3,20 +3,25 @@
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
-class GameObject {
+class CGameObject
+{
 public:
-  GameObject(Ogre::SceneManager *scnMgr, Ogre::SceneNode *parent)
-      : mScnMgr(scnMgr), mNode(parent->createChildSceneNode()) {}
+    CGameObject(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent)
+        : mScnMgr(scnMgr)
+        , mNode(parent->createChildSceneNode())
+    {
+    }
 
-  virtual ~GameObject() {
-    mNode->destroyAllObjects();
-    mScnMgr->destroySceneNode(mNode);
-  }
+    virtual ~CGameObject()
+    {
+        mNode->destroyAllObjects();
+        mScnMgr->destroySceneNode(mNode);
+    }
 
-  virtual void update(float) {}
-  Ogre::SceneNode *getNode() const { return mNode; }
+    virtual void Update(float) {}
+    Ogre::SceneNode* GetNode() const { return mNode; }
 
 protected:
-  Ogre::SceneManager *mScnMgr;
-  Ogre::SceneNode *mNode;
+    Ogre::SceneManager* mScnMgr;
+    Ogre::SceneNode* mNode;
 };
