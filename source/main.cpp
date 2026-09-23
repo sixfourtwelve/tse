@@ -3,6 +3,7 @@
 #include <OgreApplicationContext.h>
 #include <OgreCameraMan.h>
 #include <OgreEntity.h>
+#include <OgreException.h>
 #include <OgreFrameListener.h>
 #include <OgreImGuiInputListener.h>
 #include <OgreImGuiOverlay.h>
@@ -26,13 +27,14 @@
 #include <OgreSubMesh.h>
 #include <SDL2/SDL_mouse.h>
 #include <SDL_video.h>
+#include <filesystem>
 #include <imgui.h>
 #include <memory>
 
-class CMain : public OgreBites::ApplicationContext, public OgreBites::InputListener, public Ogre::RenderTargetListener
+class Main : public OgreBites::ApplicationContext, public OgreBites::InputListener, public Ogre::RenderTargetListener
 {
 public:
-    CMain(void)
+    Main(void)
         : OgreBites::ApplicationContext("Main")
     {
     }
@@ -68,7 +70,12 @@ public:
         rgm.addResourceLocation("assets/materials", "FileSystem", "Game");
         rgm.addResourceLocation("assets/models", "FileSystem", "Game");
         rgm.addResourceLocation("assets/shaders", "FileSystem", "Game");
-        std::string mediaPath = "/Users/ethan/vcpkg/packages/ogre_arm64-osx/share/ogre/Media";
+        // Ogre silently ignores resource locations that do not exist, and a missing
+        // Media/Main leaves the shadow materials unparsed -> null deref in setShadowTechnique.
+        const std::string mediaPath = TSE_OGRE_MEDIA_DIR;
+        if (!std::filesystem::is_directory(mediaPath))
+            OGRE_EXCEPT(Ogre::Exception::ERR_FILE_NOT_FOUND, "Ogre media dir missing: " + mediaPath);
+
         rgm.addResourceLocation(mediaPath + "/Main", "FileSystem", "OgreInternal");
         rgm.addResourceLocation(mediaPath + "/RTShaderLib", "FileSystem", "OgreInternal");
     }
@@ -143,7 +150,7 @@ public:
         shaderGen->addSceneManager(scnMgr);
         scnMgr->addRenderQueueListener(getOverlaySystem());
 
-        mCamera = std::make_unique<CAmera>("MainCamera", scnMgr);
+        mCamera = std::make_unique<Camera>("MainCamera", scnMgr);
 
         auto camMan = mCamera->GetCameraMan();
         addInputListener(camMan);
@@ -156,7 +163,7 @@ public:
         vp->setMaterialScheme(Ogre::MSN_SHADERGEN);
         Ogre::MaterialManager::getSingleton().setActiveScheme(vp->getMaterialScheme());
 
-        mLevel = std::make_unique<CLevel>(scnMgr, "Level01");
+        mLevel = std::make_unique<Level>(scnMgr, "Level01");
 
         mImguiOverlay = initialiseImGui();
         mImguiOverlay->setZOrder(300);
@@ -191,15 +198,15 @@ public:
     }
 
 private:
-    std::unique_ptr<CLevel> mLevel;
-    std::unique_ptr<CAmera> mCamera;
+    std::unique_ptr<Level> mLevel;
+    std::unique_ptr<Camera> mCamera;
     Ogre::ImGuiOverlay* mImguiOverlay = nullptr;
 };
 
 int main(int argc, char** argv)
 {
     bool cookOnly = argc > 1 && std::string(argv[1]) == "--cook";
-    CMain app;
+    Main app;
     app.initApp();
     if (!cookOnly)
         app.getRoot()->startRendering();

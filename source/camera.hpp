@@ -5,10 +5,10 @@
 #include <OgreInput.h>
 #include <string>
 
-class CAmera final : public CGameObject, public OgreBites::InputListener
+class Camera final : public GameObject, public OgreBites::InputListener
 {
 public:
-    CAmera(const std::string& name, Ogre::SceneManager* scnMgr);
+    Camera(const std::string& name, Ogre::SceneManager* scnMgr);
 
     Ogre::Camera* GetCamera(void) const { return mCamera; }
     OgreBites::CameraMan* GetCameraMan(void) const { return mCamMan.get(); }

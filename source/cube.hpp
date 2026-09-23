@@ -5,10 +5,10 @@
 #include <OgreVector.h>
 #include <optional>
 
-class CCube final : public CGameObject
+class Cube final : public GameObject
 {
 public:
-    CCube(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent, std::optional<Ogre::ColourValue> colour = std::nullopt,
+    Cube(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent, std::optional<Ogre::ColourValue> colour = std::nullopt,
         const Ogre::Vector3& size = Ogre::Vector3(2, 2, 2));
 
     void Update(float dt) override;

@@ -5,6 +5,9 @@
             "name": "base",
             "hidden": true,
             "generator": "Ninja",
+            "environment": {
+                "VCPKG_MAX_CONCURRENCY": "12"
+            },
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": {
                     "type": "FILEPATH",
@@ -56,15 +59,18 @@
     "buildPresets": [
         {
             "name": "debug",
-            "configurePreset": "debug"
+            "configurePreset": "debug",
+            "jobs": 12
         },
         {
             "name": "release",
-            "configurePreset": "release"
+            "configurePreset": "release",
+            "jobs": 12
         },
         {
             "name": "relwithdebinfo",
-            "configurePreset": "relwithdebinfo"
+            "configurePreset": "relwithdebinfo",
+            "jobs": 12
         }
     ]
 }

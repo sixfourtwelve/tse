@@ -10,7 +10,7 @@
 #include <OgreTextureManager.h>
 #include <OgreViewport.h>
 
-CLevel::CLevel(Ogre::SceneManager* scnMgr, const std::string& name)
+Level::Level(Ogre::SceneManager* scnMgr, const std::string& name)
     : mScnMgr(scnMgr)
 {
     mLevelNode = mScnMgr->getRootSceneNode()->createChildSceneNode(name);
@@ -24,20 +24,20 @@ CLevel::CLevel(Ogre::SceneManager* scnMgr, const std::string& name)
     scnMgr->setShadowTextureCount(1);
     scnMgr->setShadowFarDistance(10000);
 
-    mLight = Spawn<CLight>(Ogre::Vector3(0, 10, 15), "MainLight", Ogre::Light::LT_POINT);
+    mLight = Spawn<Light>(Ogre::Vector3(0, 10, 15), "MainLight", Ogre::Light::LT_POINT);
 
-    Spawn<CCube>({ 0, 0, 0 });
-    Spawn<CCube>({ 4, 0, 0 }, Ogre::ColourValue(0.2, 0.6, 1.0)); // blue
-    Spawn<CCube>({ -4, 0, 0 }, Ogre::ColourValue(0.9, 0.7, 0.2)); // amber
+    Spawn<Cube>({ 0, 0, 0 });
+    Spawn<Cube>({ 4, 0, 0 }, Ogre::ColourValue(0.2, 0.6, 1.0)); // blue
+    Spawn<Cube>({ -4, 0, 0 }, Ogre::ColourValue(0.9, 0.7, 0.2)); // amber
 }
 
-CLevel::~CLevel()
+Level::~Level()
 {
     mGameObjects.clear();
     mScnMgr->destroySceneNode(mLevelNode);
 }
 
-void CLevel::Update(const float dt) const
+void Level::Update(const float dt) const
 {
     if (mGameObjects.empty())
         return;

@@ -3,16 +3,16 @@
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
-class CGameObject
+class GameObject
 {
 public:
-    CGameObject(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent)
+    GameObject(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent)
         : mScnMgr(scnMgr)
         , mNode(parent->createChildSceneNode())
     {
     }
 
-    virtual ~CGameObject()
+    virtual ~GameObject()
     {
         mNode->destroyAllObjects();
         mScnMgr->destroySceneNode(mNode);

@@ -6,8 +6,8 @@
 #include <SDL2/SDL_scancode.h>
 #include <string>
 
-CAmera::CAmera(const std::string& name, Ogre::SceneManager* scnMgr)
-    : CGameObject(scnMgr, scnMgr->getRootSceneNode())
+Camera::Camera(const std::string& name, Ogre::SceneManager* scnMgr)
+    : GameObject(scnMgr, scnMgr->getRootSceneNode())
     , mCamera(scnMgr->createCamera(name))
 {
     mNode->setPosition(0, 5, 20);
@@ -20,4 +20,4 @@ CAmera::CAmera(const std::string& name, Ogre::SceneManager* scnMgr)
     mCamMan->setTopSpeed(10.f);
 }
 
-void CAmera::Update(float dt) {}
+void Camera::Update(float dt) {}

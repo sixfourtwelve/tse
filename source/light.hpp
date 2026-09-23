@@ -5,10 +5,10 @@
 #include <OgreSceneManager.h>
 #include <string>
 
-class CLight final : public CGameObject
+class Light final : public GameObject
 {
 public:
-    CLight(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parentNode, const std::string& name,
+    Light(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parentNode, const std::string& name,
         const Ogre::Light::LightTypes type = Ogre::Light::LT_POINT);
     void Update(float dt) override;
 };

@@ -10,11 +10,11 @@
 #include <memory>
 #include <vector>
 
-class CLevel final
+class Level final
 {
 public:
-    CLevel(Ogre::SceneManager* scnMgr, const std::string& name);
-    ~CLevel();
+    Level(Ogre::SceneManager* scnMgr, const std::string& name);
+    ~Level();
 
     void Update(float dt) const;
 
@@ -34,6 +34,6 @@ private:
 
     Ogre::Camera* mMainCam = nullptr;
 
-    std::vector<std::unique_ptr<CGameObject>> mGameObjects;
-    CLight* mLight;
+    std::vector<std::unique_ptr<GameObject>> mGameObjects;
+    Light* mLight;
 };

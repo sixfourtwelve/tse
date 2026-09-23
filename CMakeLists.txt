@@ -20,3 +20,4 @@ target_link_libraries(tes PRIVATE OgreMain OgreBullet OgreBites Codec_STBI
         $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
 )
 target_include_directories(tes PRIVATE ${BULLET_INCLUDE_DIRS})
+target_compile_definitions(tes PRIVATE TSE_OGRE_MEDIA_DIR="${OGRE_MEDIA_DIR}")

@@ -33,7 +33,7 @@ namespace
     }
 } // namespace
 
-Ogre::String CCube::EnsureMesh(Ogre::SceneManager* scnMgr)
+Ogre::String Cube::EnsureMesh(Ogre::SceneManager* scnMgr)
 {
     if (Ogre::MeshManager::getSingleton().getByName(kMeshName))
         return kMeshName;
@@ -62,9 +62,9 @@ Ogre::String CCube::EnsureMesh(Ogre::SceneManager* scnMgr)
     return kMeshName;
 }
 
-CCube::CCube(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent, std::optional<Ogre::ColourValue> colour,
+Cube::Cube(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent, std::optional<Ogre::ColourValue> colour,
     const Ogre::Vector3& size)
-    : CGameObject(scnMgr, parent)
+    : GameObject(scnMgr, parent)
 {
     const Ogre::String meshName = EnsureMesh(scnMgr);
     Ogre::Entity* ent = mScnMgr->createEntity(meshName);
@@ -86,7 +86,7 @@ CCube::CCube(Ogre::SceneManager* scnMgr, Ogre::SceneNode* parent, std::optional<
         * Ogre::Quaternion(Ogre::Degree(30), Ogre::Vector3::UNIT_X));
 }
 
-void CCube::Update(const float dt)
+void Cube::Update(const float dt)
 {
     mNode->yaw(Ogre::Degree(20) * dt);
 }
