@@ -1,14 +1,3 @@
-// -----------------------------------------------------------------------------
-// GPU program declarations. Ogre parses .program scripts BEFORE .material
-// scripts, so materials can reference these by name.
-//
-// `glsl` is the language for the GL / GL3Plus render systems. On macOS the GL
-// core profile caps at 4.1, so keep shaders at #version 150 (up to 410).
-//
-// param_named_auto  = Ogre fills this uniform every frame from engine state.
-// param_named       = a constant default you set here (can be overridden in C++).
-// -----------------------------------------------------------------------------
-
 vertex_program Basic_vs glsl
 {
     source basic_vs.glsl

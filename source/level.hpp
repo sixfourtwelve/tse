@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gameobject.hpp"
-#include "light.hpp"
 #include <OgreBullet.h>
 #include <OgreCamera.h>
 #include <OgreSceneManager.h>
@@ -35,5 +34,4 @@ private:
     Ogre::Camera* mMainCam = nullptr;
 
     std::vector<std::unique_ptr<GameObject>> mGameObjects;
-    Light* mLight;
 };

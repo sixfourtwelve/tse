@@ -1,7 +1,3 @@
-// Custom-shader material. It has explicit program refs, so RTSS leaves it
-// alone even though the viewport uses the SHADERGEN scheme (Ogre falls back
-// to this default technique).
-
 material BasicCube
 {
     technique
@@ -10,11 +6,6 @@ material BasicCube
         {
             vertex_program_ref Basic_vs { }
             fragment_program_ref Basic_fs { }
-
-            // For texturing, add e.g.:
-            // texture_unit { texture crate.png }
-            // and bind `uniform sampler2D diffuseTex` to unit 0 in basic.program:
-            // param_named diffuseTex int 0
         }
     }
 }

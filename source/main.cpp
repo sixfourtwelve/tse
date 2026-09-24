@@ -70,6 +70,7 @@ public:
         rgm.addResourceLocation("assets/materials", "FileSystem", "Game");
         rgm.addResourceLocation("assets/models", "FileSystem", "Game");
         rgm.addResourceLocation("assets/shaders", "FileSystem", "Game");
+        rgm.addResourceLocation("assets/maps", "FileSystem", "Game");
         // Ogre silently ignores resource locations that do not exist, and a missing
         // Media/Main leaves the shadow materials unparsed -> null deref in setShadowTechnique.
         const std::string mediaPath = TSE_OGRE_MEDIA_DIR;
@@ -138,8 +139,7 @@ public:
         addInputListener(this);
         setWindowGrab(true);
         SDL_SetRelativeMouseMode(SDL_TRUE);
-        // SDL_SetWindowFullscreen(SDL_GetWindowFromID(1),
-        // SDL_WINDOW_FULLSCREEN);
+        // SDL_SetWindowFullscreen(SDL_GetWindowFromID(1), SDL_WINDOW_FULLSCREEN);
 
         getRenderWindow()->setVSyncEnabled(false);
 
@@ -158,8 +158,9 @@ public:
 
         auto* vp = getRenderWindow()->addViewport(mCamera->GetCamera());
 
-        shaderGen->getRenderState(Ogre::MSN_SHADERGEN)
-            ->addTemplateSubRenderState(shaderGen->createSubRenderState(Ogre::RTShader::SRS_SHADOW_MAPPING));
+        auto* shadowMapping = shaderGen->createSubRenderState(Ogre::RTShader::SRS_SHADOW_MAPPING);
+        shadowMapping->setParameter("filter", "pcf16");
+        shaderGen->getRenderState(Ogre::MSN_SHADERGEN)->addTemplateSubRenderState(shadowMapping);
         vp->setMaterialScheme(Ogre::MSN_SHADERGEN);
         Ogre::MaterialManager::getSingleton().setActiveScheme(vp->getMaterialScheme());
 
